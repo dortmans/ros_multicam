@@ -1,0 +1,21 @@
+<launch>
+
+  <arg name="namespace" default="multicam" />
+  <arg name="camera1_name" default="cam1" />
+  <arg name="camera2_name" default="cam2" />
+  <arg name="topic1" default="$(arg namespace)/$(arg camera1_name)/image_raw" />
+  <arg name="topic2" default="$(arg namespace)/$(arg camera2_name)/image_raw" />
+  <arg name="compressed" default="true" /> 
+  
+  <!-- bag files will be stored in $ROS_HOME (default: ~/.ros) --> 
+  
+  <node pkg="rosbag" type="record" name="recorder"
+    args="-o $(arg namespace) $(arg topic1) $(arg topic2)"
+    unless="$(arg compressed)" />
+  
+  <node pkg="rosbag" type="record" name="recorder"
+    args="-o $(arg namespace) $(arg topic1)/compressed $(arg topic2)/compressed"
+    if="$(arg compressed)" />
+  
+</launch>
+
