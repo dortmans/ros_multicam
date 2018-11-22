@@ -1,0 +1,17 @@
+<launch>
+
+  <arg name="bag" default="" />
+  <arg name="loop" default="true" />
+  
+  <!-- bag files can be found in $ROS_HOME (default: ~/.ros) --> 
+  
+  <node pkg="rosbag" type="play" name="player"
+    args="-l $(arg bag)"
+    if="$(arg loop)" />
+ 
+  <node pkg="rosbag" type="play" name="player"
+    args="$(arg bag)"
+    unless="$(arg loop)" />
+  
+</launch>
+
