@@ -46,16 +46,20 @@ roslaunch ros_multicam play.launch loop:=<true/false> <name_of_bagfile>
 
 Quick check for video devices: `ls /dev/video*`
 
-More ifo on available camera devices: `v4l2-ctl --list-devices`
-Overview of camera controls: `v4l2-ctl -d /dev/video1 -l`
-To turn off autofocus: `v4l2-ctl -d /dev/video1 -c focus_auto=0`
+Tools like v4l2-ctl can be handy for controlling your cameras.
+- More info on available camera devices: `v4l2-ctl --list-devices`
+- Overview of camera controls: `v4l2-ctl -d /dev/video1 --list-ctrls`
+- Get autofocus status: `v4l2-ctl -d /dev/video0 --get-ctrl=focus_auto`
+- Turn off autofocus: `v4l2-ctl -d /dev/video1 --set-ctrl=focus_auto=0`
 
-You can also use the uvcdynctrl utility:
-Get autofocus status: `uvcdynctrl -v -d /dev/video1 --get='Focus, Auto'`
-To turn off autofocus: `uvcdynctrl -d /dev/video1 -s 'Focus, Auto' 0`
+Using the uvcdynctrl utility:
+- List available devices: `uvcdynctrl --list`
+- Overview of camera controls: `uvcdynctrl -d /dev/video1 --clist --verbose`
+- Get autofocus status: `uvcdynctrl -d /dev/video1 --get='Focus, Auto'`
+- Turn off autofocus: `uvcdynctrl -d /dev/video1 --set='Focus, Auto' 0`
 
 Camera viewer with extensive camera configuration: `guvcview -d /dev/video1`
 
 View udev attributes to create different udev rules: `udevadm info -a -n /dev/video1`
 
-OpenCV VideoCaptureProperties: `cv::CAP_PROP_AUTOFOCUS = 39`
+Autofocus property in OpenCV VideoCaptureProperties: `cv::CAP_PROP_AUTOFOCUS = 39`
