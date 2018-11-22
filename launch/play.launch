@@ -3,6 +3,15 @@
   <arg name="bag" default="" />
   <arg name="loop" default="true" />
   
+  <arg name="namespace" default="multicam" />
+  <arg name="camera1_name" default="cam1" />
+  <arg name="camera2_name" default="cam2" />
+  <arg name="topic1" default="$(arg namespace)/$(arg camera1_name)/image_raw" />
+  <arg name="topic2" default="$(arg namespace)/$(arg camera2_name)/image_raw" />
+  <!-- only compressed topics available in the bagfile -->
+  <arg name="compressed" default="true" /> 
+  
+  
   <!-- bag files can be found in $ROS_HOME (default: ~/.ros) --> 
   
   <node pkg="rosbag" type="play" name="player"
@@ -12,6 +21,17 @@
   <node pkg="rosbag" type="play" name="player"
     args="$(arg bag)"
     unless="$(arg loop)" />
+  
+  <!-- if only compressed topics available in the bagfile -->
+  <group if="$(arg compressed)">
+  
+    <node pkg="image_transport" type="republish" name="$(arg camera1_name)_republisher"
+      args="compressed in:=$(arg topic1) raw out:=$(arg topic1)" />
+    
+    <node pkg="image_transport" type="republish" name="$(arg camera2_name)_republisher"
+      args="compressed in:=$(arg topic2) raw out:=$(arg topic2)" />
+  
+  </group>
   
 </launch>
 
