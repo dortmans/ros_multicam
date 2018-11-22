@@ -32,22 +32,30 @@ roslaunch ros_multicam cv_multicam.launch
 
 If you want to record images in a bag file open a new terminal window and enter:
 ```
-roslaunch ros_multicam record_images.launch
+roslaunch ros_multicam record.launch
+```
+
+The recorded bagfile will be saved in the $ROS_HOME directory (default: ~/.ros).
+
+To play a recorded bagfile (with or without looping):
+```
+roslaunch ros_multicam play.launch loop:=<true/false> <name_of_bagfile> 
 ```
 
 ## Misc
 
-Quick check for video devices: ls /dev/video*
+Quick check for video devices: `ls /dev/video*`
 
-More on available camera devices: v4l2-ctl --list-devices
-Overview of camera controls: v4l2-ctl -d /dev/video1 -l
-To turn off autofocus: v4l2-ctl -d /dev/video1 -c focus_auto=0
+More ifo on available camera devices: `v4l2-ctl --list-devices`
+Overview of camera controls: `v4l2-ctl -d /dev/video1 -l`
+To turn off autofocus: `v4l2-ctl -d /dev/video1 -c focus_auto=0`
 
-Get autofocus status: uvcdynctrl -v -d /dev/video1 --get='Focus, Auto'
-To turn off autofocus: uvcdynctrl -d /dev/video1 -s 'Focus, Auto' 0
+You can also use the uvcdynctrl utility:
+Get autofocus status: `uvcdynctrl -v -d /dev/video1 --get='Focus, Auto'`
+To turn off autofocus: `uvcdynctrl -d /dev/video1 -s 'Focus, Auto' 0`
 
-Camera viewer with extensive camera configuration: guvcview -d /dev/video1
+Camera viewer with extensive camera configuration: `guvcview -d /dev/video1`
 
-View udev attributes to create different udev rules: udevadm info -a -n /dev/video1
+View udev attributes to create different udev rules: `udevadm info -a -n /dev/video1`
 
-OpenCV VideoCaptureProperties: cv::CAP_PROP_AUTOFOCUS = 39 
+OpenCV VideoCaptureProperties: `cv::CAP_PROP_AUTOFOCUS = 39`
